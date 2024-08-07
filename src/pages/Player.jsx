@@ -3,13 +3,12 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useFetch } from "../hooks/useFetch";
 
 export const Player = () => {
+  const apiUrl = import.meta.env.VITE_API_URL;
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { data, isLoading, error } = useFetch(
-    "http://localhost:3000/channel",
-    "POST",
-    { id: state }
-  );
+  const { data, isLoading, error } = useFetch(`${apiUrl}/channel`, "POST", {
+    id: state,
+  });
 
   if (!state) {
     navigate("/channels");
@@ -17,9 +16,10 @@ export const Player = () => {
 
   useEffect(() => {
     if (data) {
+      document.title = data[0].name;
       const player = new Clappr.Player({
-        parentId: "#player",
         source: data[0].url,
+        parentId: "#player",
         width: "100%",
         height: "550",
         plugins: [LevelSelector],
@@ -34,9 +34,7 @@ export const Player = () => {
         },
       });
 
-      return () => {
-        player.destroy();
-      };
+      return () => player.destroy();
     }
   }, [data]);
 
@@ -44,6 +42,10 @@ export const Player = () => {
     <>
       {isLoading ? (
         <div className="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-teal-800 m-auto" />
+      ) : error ? (
+        <p className="text-center text-red-600 font-bold text-3xl m-auto">
+          {error}
+        </p>
       ) : (
         data.map(({ id, name }) => (
           <div key={id}>

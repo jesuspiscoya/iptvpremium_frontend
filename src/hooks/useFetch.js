@@ -1,50 +1,42 @@
 import { useEffect, useState } from "react";
 
 export const useFetch = (url, method = "GET", body = null) => {
-  const [response, setResponse] = useState({
-    data: null,
-    isLoading: true,
-    error: null,
-  });
+  const token = localStorage.getItem("token");
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const getFetch = async () => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      setError(null);
+
       try {
         const options = {
           method: method,
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         };
-
-        if (body) {
-          options.body = JSON.stringify(body);
-        }
+        if (body) options.body = JSON.stringify(body);
 
         const response = await fetch(url, options);
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
-        }
-
         const data = await response.json();
-        setResponse({
-          data: data,
-          isLoading: false,
-          error: null,
-        });
+
+        if (!response.ok) throw new Error("Ocurrió un error en el servidor");
+
+        setData(data.data);
       } catch (error) {
-        setResponse({
-          data: null,
-          isLoading: false,
-          error: error,
-        });
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     if (!url) return;
-    getFetch();
+    fetchData();
   }, [url]);
 
-  return response;
+  return { data, isLoading, error };
 };

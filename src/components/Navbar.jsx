@@ -8,19 +8,28 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link } from "react-router-dom";
-
-const navigation = [
-  { name: "Home", href: "/", current: true },
-  { name: "Canales", href: "/channels", current: false },
-  { name: "Contacto", href: "/contact", current: false },
-];
-
-const classNames = (...classes) => {
-  return classes.filter(Boolean).join(" ");
-};
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 export const Navbar = () => {
+  const { logout } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const navigation = [
+    { name: "Home", href: "/", current: true },
+    { name: "Canales", href: "/channels", current: false },
+    { name: "Contacto", href: "/contact", current: false },
+  ];
+
+  const classNames = (...classes) => {
+    return classes.filter(Boolean).join(" ");
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
+
   return (
     <Disclosure as="nav" className="bg-gradient-to-r from-teal-800 to-sky-700">
       <div className="mx-auto px-2 sm:px-6 lg:px-8">
@@ -54,6 +63,7 @@ export const Navbar = () => {
                   <Link
                     key={item.name}
                     to={item.href}
+                    onClick={() => (document.title = "IPTV Premium")}
                     aria-current={item.current ? "page" : undefined}
                     className={classNames(
                       item.current
@@ -87,20 +97,20 @@ export const Navbar = () => {
                 className="absolute -right-4 z-10 mt-2 w-36 origin-top-right rounded-md bg-slate-800 py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in font-medium"
               >
                 <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-gray-300 data-[focus]:bg-slate-900 duration-300"
+                  <button
+                    className="w-full px-4 py-2 text-sm text-gray-300 data-[focus]:bg-slate-900 duration-300"
+                    onClick={() => navigate("/")}
                   >
                     Perfil
-                  </a>
+                  </button>
                 </MenuItem>
                 <MenuItem>
-                  <a
-                    href="#"
-                    className="block px-4 py-2 text-sm text-red-600 data-[focus]:bg-slate-900 duration-300"
+                  <button
+                    className="w-full px-4 py-2 text-sm text-red-600 data-[focus]:bg-slate-900 duration-300"
+                    onClick={handleLogout}
                   >
                     Salir
-                  </a>
+                  </button>
                 </MenuItem>
               </MenuItems>
             </Menu>

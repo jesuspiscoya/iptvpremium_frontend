@@ -2,8 +2,10 @@ import { useNavigate } from "react-router-dom";
 import { useFetch } from "../hooks/useFetch";
 
 export const Channels = () => {
-  const { data, isLoading, error } = useFetch("http://localhost:3000/channels");
+  const apiUrl = import.meta.env.VITE_API_URL;
+  const { data, isLoading, error } = useFetch(`${apiUrl}/channels`);
   const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const handleLive = (e, id) => {
     e.preventDefault();
@@ -13,11 +15,14 @@ export const Channels = () => {
   return (
     <>
       <p className="text-center text-indigo-600 font-bold text-3xl">
-        Bienvenido(a) Jesus Piscoya
+        Bienvenido(a) {user.firstname} {user.lastname}
       </p>
-
       {isLoading ? (
         <div className="border-gray-300 h-20 w-20 animate-spin rounded-full border-8 border-t-teal-800 m-auto" />
+      ) : error ? (
+        <p className="text-center text-red-600 font-bold text-3xl m-auto">
+          {error}
+        </p>
       ) : (
         <div className="flex flex-wrap justify-center items-center gap-6">
           {data.map(({ id, logo, name }) => (

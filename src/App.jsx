@@ -1,26 +1,52 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { Navbar } from "./components/Navbar";
 import { Channels } from "./pages/Channels";
 import { Home } from "./pages/Home";
 import { Contact } from "./pages/Contact";
 import { Player } from "./pages/Player";
-import { Footer } from "./components/Footer";
+import { Login } from "./pages/Login";
+import { AuthProvider } from "./contexts/AuthProvider";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 export const App = () => {
   return (
-    <BrowserRouter>
-      <div className="flex flex-col gap-8 min-h-full bg-indigo-950">
-        <Navbar />
-        <div className="container flex-1 flex flex-col gap-8  self-center">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/channels" element={<Channels />} />
-            <Route path="/contact" element={<Contact />} />
-            <Route path="/player/" element={<Player />} />
-          </Routes>
-        </div>
-        <Footer />
-      </div>
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route
+            path="/"
+            element={
+              <PrivateRoute>
+                <Home />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/channels"
+            element={
+              <PrivateRoute>
+                <Channels />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <PrivateRoute>
+                <Contact />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/player"
+            element={
+              <PrivateRoute>
+                <Player />
+              </PrivateRoute>
+            }
+          />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 };
