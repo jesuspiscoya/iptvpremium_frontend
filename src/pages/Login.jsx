@@ -56,12 +56,12 @@ export const Login = () => {
         backgroundImage: `url(${bg_imagen})`,
       }}
     >
-      <div className="bg-slate-950 bg-opacity-50 backdrop-blur-md border border-transparent rounded-lg transition-all duration-300 shadow-2xl shadow-black hover:border-violet-500 hover:shadow-2xl hover:shadow-violet-700 sm:max-w-xl lg:max-w-3xl mx-4 overflow-hidden">
-        <div className="max-h-96 overflow-hidden">
+      <div className="bg-slate-950 bg-opacity-50 backdrop-blur-md border border-transparent rounded-lg transition-all duration-300 shadow-2xl shadow-black hover:border-violet-500 hover:shadow-2xl hover:shadow-violet-700 sm:max-w-xl xl:max-w-2xl mx-4 overflow-hidden">
+        <div className="max-h-80 overflow-hidden">
           <img src={bg_imagen} />
         </div>
         <form
-          className="flex flex-col p-8 gap-4 sm:mx-14 lg:mx-36"
+          className="flex flex-col p-8 gap-4 sm:mx-14 xl:mx-24"
           onSubmit={handleSubmit}
         >
           <h1 className="text-2xl font-bold text-white text-center mb-2">

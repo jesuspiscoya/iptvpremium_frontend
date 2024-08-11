@@ -6,9 +6,7 @@ export const Player = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { data, isLoading, error } = useFetch(`${apiUrl}/channel`, "POST", {
-    id: state,
-  });
+  const { data, isLoading, error } = useFetch(`${apiUrl}/channel/${state}`);
 
   if (!state) {
     navigate("/channels");
@@ -49,7 +47,7 @@ export const Player = () => {
       ) : (
         data.map(({ id, name }) => (
           <div key={id}>
-            <p className="text-center text-indigo-600 font-bold py-5 text-3xl">
+            <p className="text-center text-indigo-600 font-bold pb-5 px-3 text-3xl">
               {name}
             </p>
             <div id="player" className="flex flex-col max-h-max" />
