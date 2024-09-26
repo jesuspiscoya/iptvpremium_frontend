@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { AuthContext } from "./AuthContext"
+import { AuthContext } from "./AuthContext";
 import PropTypes from "prop-types";
 
 export const AuthProvider = ({ children }) => {
@@ -26,8 +26,8 @@ export const AuthProvider = ({ children }) => {
 
       if (!response.ok) throw new Error(result.metadata.message);
 
-      localStorage.setItem("token", result.data[0].token);
-      localStorage.setItem("user", JSON.stringify(result.data[0]));
+      localStorage.setItem("token", result.data.token);
+      localStorage.setItem("user", JSON.stringify(result.data));
       setIsAuthenticated(true);
     } catch (error) {
       console.error(error);

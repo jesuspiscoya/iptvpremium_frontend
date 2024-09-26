@@ -20,9 +20,9 @@ const handleContextMenu = (e) => {
   e.preventDefault();
 };
 
-if (process.env.NODE_ENV === "production") {
-  setInterval(detectDevTools, 200);
-}
+// if (process.env.NODE_ENV === "production") {
+//   setInterval(detectDevTools, 200);
+// }
 
 // Agregar listeners para eventos de teclado y clic derecho
 document.addEventListener("contextmenu", handleContextMenu);

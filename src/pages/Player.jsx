@@ -14,9 +14,9 @@ export const Player = () => {
 
   useEffect(() => {
     if (data) {
-      document.title = data[0].name;
+      document.title = data.name;
       const player = new Clappr.Player({
-        source: data[0].url,
+        source: data.url,
         parentId: "#player",
         width: "100%",
         height: "550",
@@ -45,14 +45,12 @@ export const Player = () => {
           {error}
         </p>
       ) : (
-        data.map(({ id, name }) => (
-          <div key={id}>
-            <p className="text-center text-indigo-600 font-bold pb-5 px-3 text-3xl">
-              {name}
-            </p>
-            <div id="player" className="flex flex-col max-h-max" />
-          </div>
-        ))
+        <>
+          <p className="text-center text-indigo-600 font-bold pb-5 px-3 text-3xl">
+            {data.name}
+          </p>
+          <div id="player" className="flex flex-col max-h-max" />
+        </>
       )}
     </>
   );
