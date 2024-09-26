@@ -6,7 +6,7 @@ export const Player = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { data, isLoading, error } = useFetch(`${apiUrl}/channel/${state}`);
+  const { data, isLoading, error } = useFetch(`${apiUrl}/api/channel/${state}`);
 
   if (!state) {
     navigate("/channels");
@@ -14,6 +14,7 @@ export const Player = () => {
 
   useEffect(() => {
     if (data) {
+      fetch(`${apiUrl}/api/player?url=${data.url}`);
       document.title = data.name;
       const player = new Clappr.Player({
         source: data.url,

@@ -3,7 +3,7 @@ import { useFetch } from "../hooks/useFetch";
 
 export const Channels = () => {
   const apiUrl = import.meta.env.VITE_API_URL;
-  const { data, isLoading, error } = useFetch(`${apiUrl}/channels`);
+  const { data, isLoading, error } = useFetch(`${apiUrl}/api/channels`);
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
 
